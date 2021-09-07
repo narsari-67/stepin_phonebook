@@ -1,4 +1,6 @@
-# Behavior Diagrams
+Architecture
 
-## Add all the Behavior diagrams implememted
+
+Uml diagrams
+
 
