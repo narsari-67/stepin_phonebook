@@ -3,7 +3,7 @@ PROJECT_NAME = PhoneBook
 
 # Output directory
 BUILD = build
- 
+
 # All source code files
 SRC = src/add_contact.c\
 src/delete_contact.c\
@@ -12,35 +12,38 @@ src/modify_contact.c\
 src/search_contact.c\
 src/utility.c\
 
-# All include folders with header files
-INC	=add_contact.h\
-inc/add_contact.h\
-inc/delete_contact.h\
-inc/display_contact.h\
-inc/modify_contact.h\
-inc/phone_book.h\
-inc/search_contact.h\
-inc/utility.h\
-unity/unity.h\
-unity/unity_internals.h\
-
 # All test source files
-TEST_SRC = ${SRC}\
+TEST_SRC = $(SRC)\
 test/phone_book_test.c\
 unity/unity.c\
 
 TEST_OUTPUT = $(BUILD)/Test_$(PROJECT_NAME).out
 
+# All include folders with header files
+INC	= -I inc\
+-I unity\
 
+ifdef OS
+   RM = del /q
+   FixPath = $(subst /,\,$1)
+   EXEC = exe
+else
+   ifeq ($(shell uname), Linux)
+      RM = rm -rf
+      FixPath = $1
+	  EXEC = out
+   endif
+endif
 
 #Library Inlcudes
 INCLUDE_LIBS = 
 
 # Project Output name
-PROJECT_OUTPUT = $(BUILD)/$(PROJECT_NAME).out
+PROJECT_OUTPUT = $(BUILD)/$(PROJECT_NAME).$(EXEC)
 
 # Document files
-DOCUMENTATION_OUTPUT = documentation/html
+$(DOCUMENTATION_OUTPUT) :
+	mkdir documentation/html
 
 # Default target built
 $(PROJECT_NAME):all
@@ -49,11 +52,11 @@ $(PROJECT_NAME):all
 .PHONY: run clean test doc all
 
 all: $(SRC) $(BUILD)
-	gcc phone_book.c $(SRC) $(INC) -o $(PROJECT_OUTPUT).out
+	gcc phone_book.c $(SRC) $(INC) -o $(PROJECT_OUTPUT).$(EXEC)
 
 # Call `make run` to run the application
 run:$(PROJECT_NAME)
-	./$(PROJECT_OUTPUT).out
+	./$(PROJECT_OUTPUT).$(EXEC)
 
 # Document the code using Doxygen
 doc:
@@ -66,7 +69,7 @@ test:$(BUILD)
 
 # Remove all the built files, invoke by `make clean`
 clean:
-	rm -rf $(BUILD) $(DOCUMENTATION_OUTPUT) contacts.bin
+	$(RM) $(BUILD) $(DOCUMENTATION_OUTPUT) contacts.bin
 
 # Create new build folder if not present
 $(BUILD):
