@@ -1,3 +1,1 @@
-# stepin_phonebook
-https://www.code-inspector.com/project/27435/score/svg
-https://www.code-inspector.com/project/27435/status/svg
+[![CI](https://github.com/narsari-67/stepin_phonebook/actions/workflows/main.yml/badge.svg)](https://github.com/narsari-67/stepin_phonebook/actions/workflows/main.yml)
